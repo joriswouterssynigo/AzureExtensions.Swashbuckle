@@ -17,7 +17,7 @@
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
     <PackOnBuild>true</PackOnBuild>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>1.0.1</PackageVersion>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
