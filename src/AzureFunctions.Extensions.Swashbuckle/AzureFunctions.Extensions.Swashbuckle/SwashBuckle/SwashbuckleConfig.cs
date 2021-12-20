@@ -19,7 +19,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace AzureFunctions.Extensions.Swashbuckle.SwashBuckle
 {
-    public sealed class SwashbuckleConfig : ISwashbuckleConfig
+    internal class SwashbuckleConfig : ISwashbuckleConfig
     {
         private static ServiceProvider serviceProvider;
 

@@ -2,7 +2,7 @@ using System.IO;
 
 namespace AzureFunctions.Extensions.Swashbuckle.SwashBuckle
 {
-    public sealed class SwashBuckleClient : ISwashBuckleClient
+    internal class SwashBuckleClient : ISwashBuckleClient
     {
         private readonly ISwashbuckleConfig _config;
 
