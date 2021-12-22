@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Text.Json;
 using AzureFunctions.Extensions.Swashbuckle.Settings;
 using AzureFunctions.Extensions.Swashbuckle.SwashBuckle;
+using AzureFunctions.Extensions.Swashbuckle.SwashBuckle.Filters;
 using AzureFunctions.Extensions.Swashbuckle.SwashBuckle.Providers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace AzureFunctions.Extensions.Swashbuckle
 {
@@ -60,7 +62,7 @@ namespace AzureFunctions.Extensions.Swashbuckle
             services.AddSingleton<ISwashBuckleClient, SwashBuckleClient>();
 
             services.InitializeSwashbuckleConfig();
-
+          
             return services;
         }
 

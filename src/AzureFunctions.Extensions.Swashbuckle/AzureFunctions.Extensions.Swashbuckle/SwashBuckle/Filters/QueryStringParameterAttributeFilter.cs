@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -27,13 +28,13 @@ namespace AzureFunctions.Extensions.Swashbuckle.SwashBuckle.Filters
 
                 foreach (var attribute in attributes)
                 {
-                    if (attribute.DataType != null && attribute.DataType.GetTypeInfo().IsClass)
+                    if (attribute.DataType != null && attribute.DataType.GetTypeInfo().IsClass && attribute.DataType != typeof(string))
                     {
                         //If data type of query string param is class we gonna go thru the props of class
                         // in future maybe to improve this to be more generic 
                         foreach (var prop in attribute.DataType.GetProperties())
                         {
-                            if(prop.PropertyType.GetTypeInfo().IsClass)
+                            if(prop.PropertyType.GetTypeInfo().IsClass && !IsGenericList(prop))
                             {
                                 foreach(var pro in prop.PropertyType.GetProperties())
                                 {
@@ -62,7 +63,7 @@ namespace AzureFunctions.Extensions.Swashbuckle.SwashBuckle.Filters
                 Description = attribute.Description,
                 In = ParameterLocation.Query,
                 Required = attribute.Required,
-                Schema = schemaGenerator.GenerateSchema(attribute?.DataType, new SchemaRepository())
+                Schema = schemaGenerator.GenerateSchema(attribute?.DataType, new SchemaRepository()),
             };
 
             switch (attribute.Example)
@@ -90,8 +91,13 @@ namespace AzureFunctions.Extensions.Swashbuckle.SwashBuckle.Filters
                 In = ParameterLocation.Query,
                 Required = false,
             };
-
             return apiParameter;
+        }
+
+        public static bool IsGenericList(PropertyInfo oType)
+        {
+            return (oType.PropertyType.GetTypeInfo().IsGenericType 
+                && (oType.PropertyType.GetTypeInfo().GetGenericTypeDefinition() == typeof(List<>)));
         }
     }
 }
