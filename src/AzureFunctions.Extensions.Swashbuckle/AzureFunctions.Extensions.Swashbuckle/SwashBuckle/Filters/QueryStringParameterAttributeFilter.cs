@@ -83,7 +83,7 @@ namespace AzureFunctions.Extensions.Swashbuckle.SwashBuckle.Filters
 
         private OpenApiParameter GetOpenApiParameter(PropertyInfo propertyInfo)
         {
-            var attribute = propertyInfo?.DeclaringType?.GetCustomAttributes(true).OfType<JsonPropertyNameAttribute>().FirstOrDefault();
+            var attribute = propertyInfo?.GetCustomAttributes(true).OfType<JsonPropertyNameAttribute>().FirstOrDefault();
 
             var apiParameter = new OpenApiParameter
             {

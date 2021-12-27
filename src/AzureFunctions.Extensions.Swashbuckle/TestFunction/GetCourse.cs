@@ -7,6 +7,7 @@ using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace TestFunction
 {
@@ -29,6 +30,7 @@ namespace TestFunction
 
         public class PageRequest<T>
         {
+            [JsonPropertyName("page")]
             public int Page { get; set; }
             public int Size { get; set; }
 
@@ -43,6 +45,7 @@ namespace TestFunction
 
         public class PageResponse<T> 
         {
+            
             public int Index { get; set; }
             public int Size { get; set; }
             public List<T> Items { get; set; }
