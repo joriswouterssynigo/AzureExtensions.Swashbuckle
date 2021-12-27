@@ -6,7 +6,7 @@
     <Description>Swagger and Swagger UI in Azure Functions by Swashbuckle. This package is a fork of Vitaly Bibikov AzureExtensions.Swashbuckle, making it Azure Functions V3 compatible
 </Description>
     <AssemblyName>AzureFunctions.Extensions.Swashbuckle</AssemblyName>
-    <Version>1.0.0-beta</Version>
+    <Version>1.0.2-beta</Version>
     <RootNamespace>AzureFunctions.Extensions.Swashbuckle</RootNamespace>
     <Copyright>dvanlochem</Copyright>
     <PackageProjectUrl>https://github.com/dvanlochem/AzureExtensions.Swashbuckle</PackageProjectUrl>
@@ -17,7 +17,7 @@
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
     <PackOnBuild>true</PackOnBuild>
-    <PackageVersion>1.0.1</PackageVersion>
+    <PackageVersion>1.0.2</PackageVersion>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
