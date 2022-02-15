@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using AzureFunctions.Extensions.Swashbuckle.Settings;
 using AzureFunctions.Extensions.Swashbuckle.SwashBuckle;
 using AzureFunctions.Extensions.Swashbuckle.SwashBuckle.Filters;
@@ -20,7 +21,7 @@ namespace AzureFunctions.Extensions.Swashbuckle
 {
     public static class SwashBuckleStartupExtension
     {
-        public static IHostBuilder  AddSwashBuckle(
+        public static IHostBuilder AddSwashBuckle(
             this IHostBuilder builder,
             Assembly assembly,
             Action<SwaggerDocOptions> configureDocOptionsAction = null)
@@ -29,14 +30,14 @@ namespace AzureFunctions.Extensions.Swashbuckle
             {
                 services.AddSwashBuckle(assembly, configureDocOptionsAction);
             });
-            
+
             return builder;
         }
 
         public static IServiceCollection AddSwashBuckle(
             this IServiceCollection services,
             Assembly assembly,
-            Action<SwaggerDocOptions> configureDocOptionsAction = null)
+            Action<SwaggerDocOptions> configureDocOptionsAction = null, JsonSerializerOptions options = null)
         {
             services.AddSingleton<IModelMetadataProvider>(new EmptyModelMetadataProvider());
 
@@ -54,15 +55,21 @@ namespace AzureFunctions.Extensions.Swashbuckle
             configureDocOptionsAction?.Invoke(swaggerDocOptions);
 
             services.AddSingleton(swaggerDocOptions);
-            
-            var formatter = new SystemTextJsonOutputFormatter(new JsonSerializerOptions());
+
+            if (options == null)
+            {
+                options = new JsonSerializerOptions();
+                options.Converters.Add(new JsonStringEnumConverter());
+            }
+
+            var formatter = new SystemTextJsonOutputFormatter(options);
             services.AddSingleton<IOutputFormatter>(formatter);
             services.AddSingleton<IApiDescriptionGroupCollectionProvider, FunctionApiDescriptionProvider>();
             services.AddSingleton<ISwashbuckleConfig, SwashbuckleConfig>();
             services.AddSingleton<ISwashBuckleClient, SwashBuckleClient>();
 
             services.InitializeSwashbuckleConfig();
-          
+
             return services;
         }
 
