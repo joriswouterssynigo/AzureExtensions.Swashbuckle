@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 using AzureFunctions.Extensions.Swashbuckle.Settings;
 using AzureFunctions.Extensions.Swashbuckle.SwashBuckle;
 using AzureFunctions.Extensions.Swashbuckle.SwashBuckle.Filters;
@@ -39,6 +40,15 @@ namespace AzureFunctions.Extensions.Swashbuckle
             Assembly assembly,
             Action<SwaggerDocOptions> configureDocOptionsAction = null, JsonSerializerOptions options = null)
         {
+            if (options == null)
+            {
+                options = new JsonSerializerOptions
+                {
+                    TypeInfoResolver = new DefaultJsonTypeInfoResolver()
+                };
+                options.Converters.Add(new JsonStringEnumConverter());
+            }
+
             services.AddSingleton<IModelMetadataProvider>(new EmptyModelMetadataProvider());
 
             services.TryAdd(ServiceDescriptor.Transient<ICompositeMetadataDetailsProvider>(s =>
@@ -55,12 +65,6 @@ namespace AzureFunctions.Extensions.Swashbuckle
             configureDocOptionsAction?.Invoke(swaggerDocOptions);
 
             services.AddSingleton(swaggerDocOptions);
-
-            if (options == null)
-            {
-                options = new JsonSerializerOptions();
-                options.Converters.Add(new JsonStringEnumConverter());
-            }
 
             var formatter = new SystemTextJsonOutputFormatter(options);
             services.AddSingleton<IOutputFormatter>(formatter);
